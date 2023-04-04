@@ -1,4 +1,3 @@
-# Roomve :: BackEnd Developer Challenge #1
 Please refer to the `docs` directory for full information about the project.
 
 
