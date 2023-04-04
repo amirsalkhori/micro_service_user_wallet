@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  server:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: docker/nginx.dockerfile
+    ports:
+      - 8000:80
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - php
+
+  php:
+    container_name: php
+    build:
+      context: .
+      dockerfile: docker/php.dockerfile
+    ports:
+      - 9000:9000
+    volumes:
+      - ./app:/var/www/html
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: roomvu
+      MYSQL_DATABASE: roomvu
+      MYSQL_USER: roomvu
+      MYSQL_PASSWORD: roomvu
+    volumes:
+      - roomvu_db_data:/var/lib/mysql
+    ports:
+      - "4306:3306"
+
+  redis:
+    image: redis:alpine
+    container_name: web-redis
+    ports:
+      - 6379:6379
+
+volumes:
+  roomvu_db_data:
